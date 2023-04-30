@@ -41,7 +41,7 @@ data class Orders(
     @Column(nullable = false)
     val updatedAt: LocalDate = LocalDate.now(),
     @ManyToOne
-    val customer: Customer = Customer(),
+    var customer: Customer = Customer(),
     @Embedded
     val address: Address = Address(),
     @Column(nullable = false)
