@@ -5,16 +5,17 @@ services:
     image: postgres
     environment:
       POSTGRES_PASSWORD: "postgres"
+      PGDATA: /var/lib/postgresql/data/crudrest/
     ports:
       - "5432:5432"
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+#      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./postgres-data:/var/lib/postgresql/data
     networks:
       - postgres-compose-network
 
-volumes:
-  postgres_data:
+#volumes:
+#  postgres_data:
 
 networks:
   postgres-compose-network:

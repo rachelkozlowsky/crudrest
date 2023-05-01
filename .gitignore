@@ -36,5 +36,5 @@ build/
 ##mvn##
 .mvn
 
-###postgres###
-/postgres-data/
+
+postgres-data
