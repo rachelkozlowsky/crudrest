@@ -11,7 +11,7 @@ data class CustomerDTO(
     val email: String,
     val password: String,
     val address: Address,
-){
+) {
     fun toEntity(): Customer = Customer(
         firstName = this.firstName,
         lastName = this.lastName,
@@ -23,7 +23,7 @@ data class CustomerDTO(
             city = this.address.city,
             street = this.address.street,
             number = this.address.number,
-            complement = this.address.complement
-        )
+            complement = this.address.complement,
+        ),
     )
 }

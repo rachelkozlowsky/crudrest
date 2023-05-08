@@ -25,7 +25,7 @@ data class Orders(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
     @Column(nullable = false)
-    val orderId: UUID = UUID.randomUUID(),
+    val orderCode: UUID = UUID.randomUUID(),
     @Column(nullable = false)
     val paymentMethod: PaymentsMethod = PaymentsMethod.DEBIT,
     @Column(nullable = false)

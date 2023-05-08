@@ -22,8 +22,8 @@ class OrdersService(
     override fun findAllByCustomer(customerId: Long): List<Orders> =
         this.ordersRepository.findAllByCustomerId(customerId)
 
-    override fun findByOrderId(orderId: UUID, customerId: Long): Orders {
-        val orders: Orders = this.ordersRepository.findByOrderId(orderId) ?: throw RuntimeException("Order $orderId not found")
+    override fun findByOrderCode(customerId: Long, orderCode: UUID): Orders {
+        val orders: Orders = this.ordersRepository.findByOrderCode(orderCode) ?: throw RuntimeException("Order $orderCode not found")
         return if (orders.customer.customerId == customerId) orders else throw RuntimeException("Contact Admin")
     }
 }

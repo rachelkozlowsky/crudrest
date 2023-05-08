@@ -8,7 +8,7 @@ import java.util.UUID
 
 @Repository
 interface OrdersRepository : JpaRepository<Orders, Long> {
-    fun findByOrderId(orderId: UUID): Orders
+    fun findByOrderCode(orderId: UUID): Orders
 
     @Query(value = "SELECT * FROM ORDERS WHERE CUSTOMER_ID = ?1", nativeQuery = true)
     fun findAllByCustomerId(customerId: Long): List<Orders>
