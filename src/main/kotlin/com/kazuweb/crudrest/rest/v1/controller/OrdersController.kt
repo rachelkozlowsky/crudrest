@@ -7,7 +7,6 @@ import com.kazuweb.crudrest.rest.v1.dto.OrdersDTO
 import com.kazuweb.crudrest.rest.v1.dto.OrdersViewList
 import com.kazuweb.crudrest.service.impl.OrdersService
 import org.springframework.http.HttpStatus
-import org.springframework.http.HttpStatusCode
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
@@ -31,8 +30,11 @@ class OrdersController(
         return ResponseEntity.status(HttpStatus.OK).body(ordersViewList)
     }
 
-    override fun findByOrderCode(customerId: Long, orderCode: UUID): ResponseEntity<OrderView> {
-        val order: Orders = this.ordersService.findByOrderCode(customerId, orderCode)
-        return ResponseEntity.status(HttpStatus.OK).body(OrderView(order))
+    override fun findByOrderCode(orderCode: UUID): ResponseEntity<Orders> {
+        val order = this.ordersService.findByOrderCode(orderCode)
+        return ResponseEntity.status(HttpStatus.OK).body(order)
+        //todo: dando erro
     }
+
+    // todo: update status order
 }

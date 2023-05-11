@@ -33,6 +33,6 @@ class ProductsController(
     }
 
     override fun deleteProduct(id: Long) {
-        fun deleteProduct(@PathVariable id: Long) = this.productsService.delete(id)
+        this.productsService.delete(id)
     }
 }

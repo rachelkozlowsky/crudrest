@@ -1,5 +1,6 @@
 package com.kazuweb.crudrest.rest.v1.api
 
+import com.kazuweb.crudrest.domain.Orders
 import com.kazuweb.crudrest.rest.v1.dto.OrderView
 import com.kazuweb.crudrest.rest.v1.dto.OrdersDTO
 import com.kazuweb.crudrest.rest.v1.dto.OrdersViewList
@@ -23,7 +24,6 @@ interface OrdersApi {
 
     @GetMapping("/{orderCode}")
     fun findByOrderCode(
-        @RequestParam(value = "customerId") customerId: Long,
         @PathVariable orderCode: UUID,
-    ): ResponseEntity<OrderView>
+    ): ResponseEntity<Orders>
 }

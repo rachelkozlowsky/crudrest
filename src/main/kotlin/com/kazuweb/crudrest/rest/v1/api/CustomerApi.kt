@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 
-@RequestMapping("/api/customers/")
+@RequestMapping("/api/customers")
 interface CustomerApi {
 
     @GetMapping("/{id}")
@@ -29,5 +29,5 @@ interface CustomerApi {
     ): ResponseEntity<CustomerView>
 
     @DeleteMapping("/{id}")
-    fun deleteCustomer(@PathVariable id: Long)
+    fun deleteCustomer(@PathVariable id: Long): ResponseEntity<Void>
 }

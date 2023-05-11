@@ -31,6 +31,11 @@ data class Customer(
     @Embedded
     var address: Address = Address(),
     @Column(nullable = false)
-    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE], mappedBy = "customer")
+    @OneToMany(
+        fetch = FetchType.LAZY,
+        mappedBy = "customer",
+        cascade = [CascadeType.ALL],
+        orphanRemoval = true,
+    )
     var orders: List<Orders> = mutableListOf(),
 )

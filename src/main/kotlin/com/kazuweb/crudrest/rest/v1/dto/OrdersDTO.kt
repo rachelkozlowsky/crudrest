@@ -8,6 +8,7 @@ import com.kazuweb.crudrest.domain.enuns.PaymentsMethod
 import com.kazuweb.crudrest.domain.enuns.StatusOrder
 import java.math.BigDecimal
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 data class OrdersDTO(
     val paymentMethod: PaymentsMethod,
@@ -15,8 +16,8 @@ data class OrdersDTO(
     val tax: BigDecimal?,
     val discount: BigDecimal?,
     val status: StatusOrder,
-    val createdAt: LocalDate,
-    val updatedAt: LocalDate,
+    val createdAt: LocalDateTime,
+    val updatedAt: LocalDateTime,
     var customerId: Long,
     val address: Address,
     val products: List<Products>,

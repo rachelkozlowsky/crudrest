@@ -15,7 +15,7 @@ import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import java.math.BigDecimal
-import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 
 @Entity
@@ -37,15 +37,20 @@ data class Orders(
     @Enumerated
     val status: StatusOrder = StatusOrder.PENDING,
     @Column(nullable = false)
-    val createdAt: LocalDate = LocalDate.now(),
+    val createdAt: LocalDateTime = LocalDateTime.now(),
     @Column(nullable = false)
-    val updatedAt: LocalDate = LocalDate.now(),
+    val updatedAt: LocalDateTime = LocalDateTime.now(),
     @ManyToOne
     var customer: Customer = Customer(),
     @Embedded
     val address: Address = Address(),
     @Column(nullable = false)
-    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE], mappedBy = "orders")
+    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     val products: List<Products> = mutableListOf(),
 
 )
+
+// todo: serialize time
+// @JsonSerialize(using = LocalDateTimeSerializer::class)
+// @JsonFormat(pattern = "yyyy-MM-dd")
+// @JsonProperty("date")

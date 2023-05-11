@@ -2,13 +2,12 @@ package com.kazuweb.crudrest.rest.v1.dto
 
 import com.kazuweb.crudrest.domain.Address
 import com.kazuweb.crudrest.domain.Customer
-import com.kazuweb.crudrest.domain.Orders
 import com.kazuweb.crudrest.domain.Products
 import com.kazuweb.crudrest.domain.enuns.PaymentsMethod
 import com.kazuweb.crudrest.domain.enuns.StatusOrder
 import java.math.BigDecimal
-import java.time.LocalDate
-import java.util.UUID
+import java.time.LocalDateTime
+import java.util.*
 
 data class OrderView(
     val orderCode: UUID,
@@ -17,13 +16,13 @@ data class OrderView(
     val tax: BigDecimal?,
     val discount: BigDecimal?,
     val status: StatusOrder,
-    val createdAt: LocalDate,
-    val updatedAt: LocalDate,
+    val createdAt: LocalDateTime,
+    val updatedAt: LocalDateTime,
     var customer: Customer,
     val address: Address,
     val products: List<Products>,
 ) {
-    constructor(orders: Orders) : this(
+    constructor(orders: OrderView) : this(
         orderCode = orders.orderCode,
         paymentMethod = orders.paymentMethod,
         paymentValue = orders.paymentValue,
