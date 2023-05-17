@@ -1,11 +1,13 @@
 package com.kazuweb.crudrest.rest.v1.api
 
-import com.kazuweb.crudrest.domain.Orders
+import com.kazuweb.crudrest.rest.v1.dto.OrderUpdateDTO
 import com.kazuweb.crudrest.rest.v1.dto.OrderView
 import com.kazuweb.crudrest.rest.v1.dto.OrdersDTO
 import com.kazuweb.crudrest.rest.v1.dto.OrdersViewList
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -25,5 +27,14 @@ interface OrdersApi {
     @GetMapping("/{orderCode}")
     fun findByOrderCode(
         @PathVariable orderCode: UUID,
-    ): ResponseEntity<Orders>
+    ): ResponseEntity<List<OrderView>>
+
+    @PatchMapping
+    fun updateOrder(
+        @RequestParam(value = "orderId") orderId: UUID,
+        @RequestBody orderUpdateDTO: OrderUpdateDTO,
+    ): ResponseEntity<OrderView>
+
+    @DeleteMapping("{id}")
+    fun deleteOrder(@PathVariable orderId: UUID): ResponseEntity<Void>
 }

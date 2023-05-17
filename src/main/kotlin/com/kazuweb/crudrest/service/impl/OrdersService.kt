@@ -2,7 +2,6 @@ package com.kazuweb.crudrest.service.impl
 
 import com.kazuweb.crudrest.domain.Orders
 import com.kazuweb.crudrest.repository.OrdersRepository
-import com.kazuweb.crudrest.rest.v1.dto.OrderView
 import com.kazuweb.crudrest.service.IOrderService
 import org.springframework.stereotype.Service
 import java.util.UUID
@@ -23,11 +22,9 @@ class OrdersService(
     override fun findAllByCustomer(customerId: Long): List<Orders> =
         this.ordersRepository.findAllByCustomerId(customerId)
 
-    override fun findByOrderCode(orderCode: UUID): Orders =
+    override fun findByOrderCode(orderCode: UUID): List<Orders> =
         this.ordersRepository.findByOrderCode(orderCode)
 
-
-        //return this.ordersRepository.findByOrderCode(orderCode) // ?: throw RuntimeException("Order $orderCode not found")
-        // if (orders.customer.customerId == customerId) orders else throw RuntimeException("Contact Admin")
-
+    // return this.ordersRepository.findByOrderCode(orderCode) // ?: throw RuntimeException("Order $orderCode not found")
+    // if (orders.customer.customerId == customerId) orders else throw RuntimeException("Contact Admin")
 }

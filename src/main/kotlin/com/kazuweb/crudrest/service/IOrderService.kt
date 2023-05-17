@@ -9,5 +9,5 @@ interface IOrderService {
 
     fun findAllByCustomer(customerId: Long): List<Orders>
 
-    fun findByOrderCode(orderCode: UUID): Orders
+    fun findByOrderCode(orderCode: UUID): List<Orders>
 }

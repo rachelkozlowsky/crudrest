@@ -2,6 +2,7 @@ package com.kazuweb.crudrest.rest.v1.controller
 
 import com.kazuweb.crudrest.domain.Orders
 import com.kazuweb.crudrest.rest.v1.api.OrdersApi
+import com.kazuweb.crudrest.rest.v1.dto.OrderUpdateDTO
 import com.kazuweb.crudrest.rest.v1.dto.OrderView
 import com.kazuweb.crudrest.rest.v1.dto.OrdersDTO
 import com.kazuweb.crudrest.rest.v1.dto.OrdersViewList
@@ -29,12 +30,26 @@ class OrdersController(
         }.collect(Collectors.toList())
         return ResponseEntity.status(HttpStatus.OK).body(ordersViewList)
     }
-
-    override fun findByOrderCode(orderCode: UUID): ResponseEntity<Orders> {
-        val order = this.ordersService.findByOrderCode(orderCode)
-        return ResponseEntity.status(HttpStatus.OK).body(order)
-        //todo: dando erro
+    override fun findByOrderCode(orderCode: UUID): ResponseEntity<List<OrderView>> {
+        val orderView: List<OrderView> = this.ordersService.findByOrderCode(orderCode).stream()
+            .map {
+                    orders: Orders ->
+                OrderView(orders)
+            }.collect(Collectors.toList())
+        return ResponseEntity.status(HttpStatus.OK).body(orderView)
     }
 
-    // todo: update status order
+    override fun updateOrder(orderId: UUID, orderUpdateDTO: OrderUpdateDTO): ResponseEntity<OrderView> {
+        TODO("Not yet implemented")
+        // buscar ordem
+        // findByOrcerCode
+
+        // UpdatedDTO.toEntity
+
+        // save
+    }
+
+    override fun deleteOrder(orderId: UUID): ResponseEntity<Void> {
+        TODO("Not yet implemented")
+    }
 }

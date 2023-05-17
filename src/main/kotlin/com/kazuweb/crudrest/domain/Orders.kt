@@ -27,26 +27,26 @@ data class Orders(
     @Column(nullable = false)
     val orderCode: UUID = UUID.randomUUID(),
     @Column(nullable = false)
-    val paymentMethod: PaymentsMethod = PaymentsMethod.DEBIT,
+    var paymentMethod: PaymentsMethod = PaymentsMethod.DEBIT,
     @Column(nullable = false)
-    val paymentValue: BigDecimal = BigDecimal.ZERO,
+    var paymentValue: BigDecimal = BigDecimal.ZERO,
     @Column(nullable = true)
-    val tax: BigDecimal? = BigDecimal.ZERO,
+    var tax: BigDecimal? = BigDecimal.ZERO,
     @Column(nullable = true)
-    val discount: BigDecimal? = BigDecimal.ZERO,
+    var discount: BigDecimal? = BigDecimal.ZERO,
     @Enumerated
-    val status: StatusOrder = StatusOrder.PENDING,
+    var status: StatusOrder = StatusOrder.PENDING,
     @Column(nullable = false)
     val createdAt: LocalDateTime = LocalDateTime.now(),
     @Column(nullable = false)
-    val updatedAt: LocalDateTime = LocalDateTime.now(),
+    var updatedAt: LocalDateTime = LocalDateTime.now(),
     @ManyToOne
     var customer: Customer = Customer(),
     @Embedded
-    val address: Address = Address(),
+    var address: Address = Address(),
     @Column(nullable = false)
     @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
-    val products: List<Products> = mutableListOf(),
+    var products: List<Products> = mutableListOf(),
 
 )
 
