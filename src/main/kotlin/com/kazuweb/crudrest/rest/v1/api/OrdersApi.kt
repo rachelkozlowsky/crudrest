@@ -18,6 +18,9 @@ import java.util.*
 @RequestMapping("/api/orders")
 interface OrdersApi {
 
+    @GetMapping("/id")
+    fun findById(@RequestParam(value = "orderId")id: Long): ResponseEntity<OrderView>
+
     @PostMapping
     fun saveOrders(@RequestBody ordersDTO: OrdersDTO): ResponseEntity<String>
 
@@ -31,10 +34,10 @@ interface OrdersApi {
 
     @PatchMapping
     fun updateOrder(
-        @RequestParam(value = "orderId") orderId: UUID,
+        @RequestParam(value = "orderId") id: Long,
         @RequestBody orderUpdateDTO: OrderUpdateDTO,
     ): ResponseEntity<OrderView>
 
     @DeleteMapping("{id}")
-    fun deleteOrder(@PathVariable orderId: UUID): ResponseEntity<Void>
+    fun deleteOrder(@PathVariable id: Long): ResponseEntity<Void>
 }

@@ -9,7 +9,7 @@ import java.math.BigDecimal
 import java.util.UUID
 
 data class OrdersViewList(
-    val orderId: UUID,
+    val orderCode: UUID,
     val paymentMethod: PaymentsMethod,
     val paymentValue: BigDecimal,
     val tax: BigDecimal?,
@@ -20,7 +20,7 @@ data class OrdersViewList(
 
 ) {
     constructor(orders: Orders) : this (
-        orderId = orders.orderCode,
+        orderCode = orders.orderCode,
         paymentMethod = orders.paymentMethod,
         paymentValue = orders.paymentValue,
         tax = orders.tax,

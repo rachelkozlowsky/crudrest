@@ -17,6 +17,11 @@ import java.util.stream.Collectors
 class OrdersController(
     private val ordersService: OrdersService,
 ) : OrdersApi {
+
+    override fun findById(id: Long): ResponseEntity<OrderView> {
+        val order: Orders = this.ordersService.findById(id)
+        return ResponseEntity.status(HttpStatus.OK).body(OrderView(order))
+    }
     override fun saveOrders(ordersDTO: OrdersDTO): ResponseEntity<String> {
         val order: Orders = this.ordersService.save(ordersDTO.toEntity())
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -39,17 +44,15 @@ class OrdersController(
         return ResponseEntity.status(HttpStatus.OK).body(orderView)
     }
 
-    override fun updateOrder(orderId: UUID, orderUpdateDTO: OrderUpdateDTO): ResponseEntity<OrderView> {
-        TODO("Not yet implemented")
-        // buscar ordem
-        // findByOrcerCode
-
-        // UpdatedDTO.toEntity
-
-        // save
+    override fun updateOrder(id: Long, orderUpdateDTO: OrderUpdateDTO): ResponseEntity<OrderView> {
+        val order: Orders = this.ordersService.findById(id)
+        val orderToUpdate: Orders = orderUpdateDTO.toEntity(order)
+        val orderUpdated: Orders = this.ordersService.save(orderToUpdate)
+        return ResponseEntity.status(HttpStatus.OK).body(OrderView(orderUpdated))
     }
 
-    override fun deleteOrder(orderId: UUID): ResponseEntity<Void> {
-        TODO("Not yet implemented")
+    override fun deleteOrder(id: Long): ResponseEntity<Void> {
+        this.ordersService.delete(id)
+        return ResponseEntity.noContent().build()
     }
 }

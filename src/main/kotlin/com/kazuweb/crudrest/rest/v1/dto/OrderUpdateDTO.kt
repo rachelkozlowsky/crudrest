@@ -2,7 +2,6 @@ package com.kazuweb.crudrest.rest.v1.dto
 
 import com.kazuweb.crudrest.domain.Address
 import com.kazuweb.crudrest.domain.Orders
-import com.kazuweb.crudrest.domain.Products
 import com.kazuweb.crudrest.domain.enuns.PaymentsMethod
 import com.kazuweb.crudrest.domain.enuns.StatusOrder
 import java.math.BigDecimal
@@ -16,7 +15,6 @@ data class OrderUpdateDTO(
     val status: StatusOrder,
     val updatedAt: LocalDateTime,
     val address: Address,
-    val products: List<Products>,
 ) {
     fun toEntity(orders: Orders): Orders {
         orders.paymentMethod = this.paymentMethod
@@ -26,7 +24,6 @@ data class OrderUpdateDTO(
         orders.status = this.status
         orders.updatedAt = this.updatedAt
         orders.address = this.address
-        orders.products = this.products
         return orders
     }
 }

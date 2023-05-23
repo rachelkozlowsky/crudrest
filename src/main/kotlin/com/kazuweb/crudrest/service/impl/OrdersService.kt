@@ -4,6 +4,7 @@ import com.kazuweb.crudrest.domain.Orders
 import com.kazuweb.crudrest.repository.OrdersRepository
 import com.kazuweb.crudrest.service.IOrderService
 import org.springframework.stereotype.Service
+import java.lang.RuntimeException
 import java.util.UUID
 
 @Service
@@ -24,6 +25,12 @@ class OrdersService(
 
     override fun findByOrderCode(orderCode: UUID): List<Orders> =
         this.ordersRepository.findByOrderCode(orderCode)
+
+    override fun findById(id: Long): Orders = this.ordersRepository.findById(id).orElseThrow {
+        RuntimeException("id $id not found")
+    }
+
+    override fun delete(id: Long) = this.ordersRepository.deleteById(id)
 
     // return this.ordersRepository.findByOrderCode(orderCode) // ?: throw RuntimeException("Order $orderCode not found")
     // if (orders.customer.customerId == customerId) orders else throw RuntimeException("Contact Admin")
