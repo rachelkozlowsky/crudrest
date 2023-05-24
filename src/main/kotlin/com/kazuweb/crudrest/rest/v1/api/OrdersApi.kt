@@ -4,6 +4,7 @@ import com.kazuweb.crudrest.rest.v1.dto.OrderUpdateDTO
 import com.kazuweb.crudrest.rest.v1.dto.OrderView
 import com.kazuweb.crudrest.rest.v1.dto.OrdersDTO
 import com.kazuweb.crudrest.rest.v1.dto.OrdersViewList
+import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -22,7 +23,10 @@ interface OrdersApi {
     fun findById(@RequestParam(value = "orderId")id: Long): ResponseEntity<OrderView>
 
     @PostMapping
-    fun saveOrders(@RequestBody ordersDTO: OrdersDTO): ResponseEntity<String>
+    fun saveOrders(
+        @RequestBody @Valid
+        ordersDTO: OrdersDTO,
+    ): ResponseEntity<String>
 
     @GetMapping
     fun findAllByCustomerId(@RequestParam(value = "customerId")customerId: Long): ResponseEntity<List<OrdersViewList>>
@@ -35,7 +39,8 @@ interface OrdersApi {
     @PatchMapping
     fun updateOrder(
         @RequestParam(value = "orderId") id: Long,
-        @RequestBody orderUpdateDTO: OrderUpdateDTO,
+        @RequestBody @Valid
+        orderUpdateDTO: OrderUpdateDTO,
     ): ResponseEntity<OrderView>
 
     @DeleteMapping("{id}")

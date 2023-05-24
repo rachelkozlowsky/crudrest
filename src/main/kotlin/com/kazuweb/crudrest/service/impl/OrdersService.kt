@@ -1,6 +1,7 @@
 package com.kazuweb.crudrest.service.impl
 
 import com.kazuweb.crudrest.domain.Orders
+import com.kazuweb.crudrest.exception.BusinessException
 import com.kazuweb.crudrest.repository.OrdersRepository
 import com.kazuweb.crudrest.service.IOrderService
 import org.springframework.stereotype.Service
@@ -27,7 +28,7 @@ class OrdersService(
         this.ordersRepository.findByOrderCode(orderCode)
 
     override fun findById(id: Long): Orders = this.ordersRepository.findById(id).orElseThrow {
-        RuntimeException("id $id not found")
+        BusinessException("id $id not found")
     }
 
     override fun delete(id: Long) = this.ordersRepository.deleteById(id)

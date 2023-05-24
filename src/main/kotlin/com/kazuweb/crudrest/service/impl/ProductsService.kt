@@ -1,6 +1,7 @@
 package com.kazuweb.crudrest.service.impl
 
 import com.kazuweb.crudrest.domain.Products
+import com.kazuweb.crudrest.exception.BusinessException
 import com.kazuweb.crudrest.repository.ProductsRepository
 import com.kazuweb.crudrest.service.IProductsService
 import org.springframework.stereotype.Service
@@ -15,8 +16,7 @@ class ProductsService(
 
     override fun findById(id: Long): Products =
         this.productsRepository.findById(id).orElseThrow {
-            throw RuntimeException("id $id not found")
-            // todo: customizar exceções
+            throw BusinessException("id $id not found")
         }
 
     override fun delete(id: Long) = this.productsRepository.deleteById(id)

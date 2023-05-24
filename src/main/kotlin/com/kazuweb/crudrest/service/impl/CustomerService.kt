@@ -1,13 +1,14 @@
 package com.kazuweb.crudrest.service.impl
 
 import com.kazuweb.crudrest.domain.Customer
+import com.kazuweb.crudrest.exception.BusinessException
 import com.kazuweb.crudrest.repository.CustomerRepository
 import com.kazuweb.crudrest.service.ICustomerService
 import org.springframework.stereotype.Service
 
 @Service
 class CustomerService(
-    private val customerRepository: CustomerRepository
+    private val customerRepository: CustomerRepository,
 ) : ICustomerService {
 
     override fun save(customer: Customer): Customer =
@@ -15,9 +16,12 @@ class CustomerService(
 
     override fun findById(id: Long): Customer =
         this.customerRepository.findById(id).orElseThrow {
-            throw RuntimeException("id $id not found")
-            // todo customizar exceção
+            throw BusinessException("id $id not found")
         }
 
-    override fun delete(id: Long) = this.customerRepository.deleteById(id)
+    override fun delete(id: Long) {
+        val customer: Customer = this.findById(id)
+        this.customerRepository.delete(customer)
+//        this.customerRepository.deleteById(id)
+    }
 }

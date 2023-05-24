@@ -3,6 +3,7 @@ package com.kazuweb.crudrest.rest.v1.api
 import com.kazuweb.crudrest.rest.v1.dto.ProductsDTO
 import com.kazuweb.crudrest.rest.v1.dto.ProductsUpdateDTO
 import com.kazuweb.crudrest.rest.v1.dto.ProductsView
+import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -20,12 +21,16 @@ interface ProductsApi {
     fun findById(@PathVariable id: Long): ResponseEntity<ProductsView>
 
     @PostMapping
-    fun saveProduct(@RequestBody productsDTO: ProductsDTO): ResponseEntity<String>
+    fun saveProduct(
+        @RequestBody @Valid
+        productsDTO: ProductsDTO,
+    ): ResponseEntity<String>
 
     @PatchMapping
     fun updateProduct(
         @RequestParam(value = "productId") id: Long,
-        @RequestBody productsUpdateDTO: ProductsUpdateDTO,
+        @RequestBody @Valid
+        productsUpdateDTO: ProductsUpdateDTO,
     ): ResponseEntity<ProductsView>
 
     @DeleteMapping("/{id}")
