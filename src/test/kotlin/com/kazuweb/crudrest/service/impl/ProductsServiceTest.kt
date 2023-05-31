@@ -1,6 +1,5 @@
 package com.kazuweb.crudrest.service.impl
 
-import com.kazuweb.crudrest.domain.Customer
 import com.kazuweb.crudrest.domain.Products
 import com.kazuweb.crudrest.exception.BusinessException
 import com.kazuweb.crudrest.repository.ProductsRepository
@@ -13,7 +12,6 @@ import io.mockk.mockk
 import io.mockk.runs
 import io.mockk.verify
 import org.assertj.core.api.Assertions
-
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import java.math.BigDecimal

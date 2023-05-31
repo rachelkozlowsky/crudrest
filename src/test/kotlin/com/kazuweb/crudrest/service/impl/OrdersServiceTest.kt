@@ -10,8 +10,11 @@ import com.kazuweb.crudrest.repository.OrdersRepository
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.junit5.MockKExtension
-import io.mockk.mockk
+import io.mockk.verify
+import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertTrue
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -25,7 +28,7 @@ internal class OrdersServiceTest {
     @MockK
     lateinit var ordersRepository: OrdersRepository // = mockk(relaxed = true)
 
-    @MockK
+    @RelaxedMockK
     lateinit var customerService: CustomerService // = mockk(relaxed = true)
 
     @InjectMockKs
@@ -33,30 +36,76 @@ internal class OrdersServiceTest {
 
     @Test
     fun `should create order`() {
-        // todo: 1 terminar testes unitários
-//        val orderMock: Orders = buildOrder()
-//        every { ordersRepository.save(any()) } returns orderMock
-//        val customerMock: Customer = customerService.findById(orderMock.customer.customerId!!)
-//        val customerActual: Customer = customerService.save(customerMock)
-//        val orderActual: Orders = ordersService.save(orderMock)
-//        Assertions.assertThat(orderActual).isNotNull
-//        Assertions.assertThat(customerActual).isNotNull
+        val orderMock: Orders = buildOrder()
+        every { ordersRepository.save(any()) } returns orderMock
+        val orderActual: Orders = ordersService.save(orderMock)
+        Assertions.assertThat(orderActual).isNotNull
+        Assertions.assertThat(orderActual).isSameAs(orderMock)
+        verify(exactly = 1) { ordersRepository.save(orderMock) }
     }
 
     @Test
-    fun findAllByCustomer() {
+    fun `should find order by customerId`() {
+        val customerIdMock: Long = Random().nextLong()
+        val orderMock: Orders = buildOrder(customerId = customerIdMock)
+        every { ordersRepository.findAllByCustomerId(any()) } returns listOf(orderMock)
+        val orderActual: List<Orders> = ordersService.findAllByCustomer(customerIdMock)
+        val list = convert(orderActual)
+        Assertions.assertThat(orderActual).isNotNull
+        Assertions.assertThat(list).isExactlyInstanceOf(Orders::class.java)
+        verify(exactly = 1) { ordersRepository.findAllByCustomerId(customerIdMock) }
     }
 
     @Test
-    fun findByOrderCode() {
+    fun `should find order by orderCode`() {
+        val orderCodeMock: UUID = UUID.randomUUID()
+        val orderMock: Orders = buildOrder(orderCode = orderCodeMock)
+        every { ordersRepository.findByOrderCode(any()) } returns listOf(orderMock)
+        val orderActual: List<Orders> = ordersService.findByOrderCode(orderCodeMock)
+        val list = convert(orderActual)
+        Assertions.assertThat(orderActual).isNotNull
+        Assertions.assertThat(list).isExactlyInstanceOf(Orders::class.java)
+        verify(exactly = 1) { ordersRepository.findByOrderCode(orderCodeMock) }
     }
 
     @Test
     fun findById() {
+        // todo: test
     }
 
     @Test
-    fun delete() {
+    fun `should delete customer by id`() {
+        // todo: test
+    }
+
+    @Test
+    fun `a practise to convert varargs to list`() {
+        /**
+         * Converts the given parameters to a list.
+         */
+        fun <T> convert(vararg params: T): List<T> {
+            val result = ArrayList<T>()
+
+            params.forEach { result.add(it) }
+
+            return result
+        }
+
+        // when
+        val list = convert("A", "B", "C")
+
+        // then
+        assertTrue(list is List<String>)
+        assertEquals(3, list.size)
+        assertTrue("A" in list)
+        assertTrue("B" in list)
+        assertTrue("C" in list)
+    }
+
+    fun <T> convert(vararg params: T): Orders {
+        val result = Orders()
+        params.forEach { result.let { it } }
+        return result
     }
 
     fun buildOrder(
@@ -83,7 +132,7 @@ internal class OrdersServiceTest {
         productId: Long = 1L,
         productName: String = "Livro",
         productValue: BigDecimal = BigDecimal.TEN,
-    ) = Orders(
+    ): Orders = Orders(
         id = id,
         orderCode = orderCode,
         paymentMethod = paymentMethod,
