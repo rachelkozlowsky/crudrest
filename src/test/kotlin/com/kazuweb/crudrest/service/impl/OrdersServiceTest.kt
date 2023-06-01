@@ -6,12 +6,15 @@ import com.kazuweb.crudrest.domain.Orders
 import com.kazuweb.crudrest.domain.Products
 import com.kazuweb.crudrest.domain.enuns.PaymentsMethod
 import com.kazuweb.crudrest.domain.enuns.StatusOrder
+import com.kazuweb.crudrest.exception.BusinessException
 import com.kazuweb.crudrest.repository.OrdersRepository
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.junit5.MockKExtension
+import io.mockk.just
+import io.mockk.runs
 import io.mockk.verify
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
@@ -64,18 +67,39 @@ internal class OrdersServiceTest {
         val orderActual: List<Orders> = ordersService.findByOrderCode(orderCodeMock)
         val list = convert(orderActual)
         Assertions.assertThat(orderActual).isNotNull
+        Assertions.assertThat(list).isNotNull
         Assertions.assertThat(list).isExactlyInstanceOf(Orders::class.java)
         verify(exactly = 1) { ordersRepository.findByOrderCode(orderCodeMock) }
     }
 
     @Test
-    fun findById() {
-        // todo: test
+    fun `should find order by id`() {
+        val idMock: Long = Random().nextLong()
+        val orderMock: Orders = buildOrder(id = idMock)
+        every { ordersRepository.findById(any()) } returns Optional.of(orderMock)
+        val orderActual: Orders = ordersService.findById(idMock)
+        Assertions.assertThat(orderActual).isNotNull
+        Assertions.assertThat(orderActual).isExactlyInstanceOf(Orders::class.java)
+        Assertions.assertThat(orderActual).isSameAs(orderMock)
+        verify(exactly = 1) { ordersRepository.findById(idMock) }
     }
 
     @Test
-    fun `should delete customer by id`() {
-        // todo: test
+    fun `should not find order by invalid id and throw BussinessException`() {
+        val idMock: Long = Random().nextLong()
+        every { ordersRepository.findById(idMock) } returns Optional.empty()
+
+        Assertions.assertThatExceptionOfType(BusinessException::class.java)
+            .isThrownBy { ordersService.findById(idMock) }
+            .withMessage("id $idMock not found")
+    }
+
+    @Test
+    fun `should delete order by id`() {
+        val idMock: Long = Random().nextLong()
+        every { ordersRepository.deleteById(idMock) } just runs
+        ordersService.delete(idMock)
+        verify(exactly = 1) { ordersRepository.deleteById(idMock) }
     }
 
     @Test
